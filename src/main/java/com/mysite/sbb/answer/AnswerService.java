@@ -17,6 +17,10 @@ public class AnswerService {
 	
 	private final AnswerRepository answerRepository; 
 
+    public void vote(Answer answer,SiteUser siteUser){
+        answer.getVoter().add(siteUser);
+        this.answerRepository.save(answer);
+    }
 	//답변글을 저장하는 메소드 , Controller 에서 Question 생성해서 아규먼트로 인풋 
 	public void create(Question question, String content, SiteUser author) {
 		

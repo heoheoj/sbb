@@ -27,8 +27,12 @@ public class QuestionService {
 //		return this.questionRepository.findAll(); 
 //		
 //	}
-	
-	
+
+	public void vote(Question question,SiteUser siteUser){
+		question.getVoter().add(siteUser);
+		questionRepository.save(question);
+	}
+
 	//Controller 에서 getList메소드 호출시 출력할 page 번호를 매개변수로 받음. : 0, 1, 2, 3
 	public Page<Question> getList(int page) {
 		

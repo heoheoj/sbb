@@ -30,10 +30,18 @@ public class AnswerController {
 	private final QuestionService questionService;
 	private final AnswerService answerService; 
 	private final UserService userService;		//2월 16일 추가 항목
-	
-	
-	//http://localhost:9292/answer/create/1 요청에 대한 답변글 등록 처리 
-	
+
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/vote/{id}")
+    public String answerVote(Principal principal,@PathVariable("id")Integer id){
+        SiteUser siteUser=this.userService.getUser(principal.getName());
+        Answer answer=this.answerService.getAnswer(id);
+        this.answerService.vote(answer,siteUser);
+
+        return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+    }
+
 	//SecurityConfig.java 에서 @EnableMethodSecurity(prePostEnabled = true) 클래스 위에 
 	// 부여되어 있을때 작동됨 
 	@PreAuthorize("isAuthenticated()")		//로그인시에만 접근

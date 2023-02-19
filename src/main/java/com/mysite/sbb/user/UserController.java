@@ -46,6 +46,10 @@ public class UserController {
             return "signup_form";
         }
 
+        String username= userCreateForm.getUsername();
+        String email=userCreateForm.getEmail();
+        String password=userCreateForm.getPassword1();
+        this.userService.create(username,email,password);
         return "redirect:/";
     }
     

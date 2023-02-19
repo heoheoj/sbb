@@ -2,19 +2,13 @@ package com.mysite.sbb.question;
 
 import java.time.LocalDateTime;   //자신의 시스템의 로케일의 시간설정 
 import java.util.List;
+import java.util.Set;
 
 import com.mysite.sbb.answer.Answer;
 import com.mysite.sbb.user.SiteUser;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-//persistence : JPA에서 사용된 어노테이션 
-import jakarta.persistence.Entity;   //JPA 에서 적용된 어노테이션 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
+//persistence : JPA에서 사용된 어노테이션
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -54,5 +48,9 @@ public class Question {
     private SiteUser author;
 	
 	private LocalDateTime modifyDate;
-		
+
+	//한 질문에 좋아요를 여러명이 누를 수 있다.
+	//한 사람이 여러질문에 좋아요를 누를 수 있다.
+	@ManyToMany
+	Set<SiteUser> voter;
 }
