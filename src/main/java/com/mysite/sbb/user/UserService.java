@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.mysite.sbb.DataNotFoundException;
+import com.mysite.sbb.test.DataNotFoundException;
 
 import lombok.RequiredArgsConstructor;
 

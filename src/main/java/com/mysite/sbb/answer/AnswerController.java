@@ -39,7 +39,8 @@ public class AnswerController {
         Answer answer=this.answerService.getAnswer(id);
         this.answerService.vote(answer,siteUser);
 
-        return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+        return String.format("redirect:/question/detail/%s#answer_%s",
+                answer.getQuestion().getId(), answer.getId());
     }
 
 	//SecurityConfig.java 에서 @EnableMethodSecurity(prePostEnabled = true) 클래스 위에 
@@ -47,16 +48,9 @@ public class AnswerController {
 	@PreAuthorize("isAuthenticated()")		//로그인시에만 접근
 	@PostMapping("/create/{id}")
 	public String createAnswer(
-			//<<Validation 전 구성 >>
-			//Model model, @PathVariable("id") Integer id,@RequestParam String content 
-
-			//content의 유효성 검사 
 			Model model, @PathVariable("id") Integer id, 
 			@Valid AnswerForm answerForm, BindingResult bindingResult, 
-			Principal principal		
-			//2월 16일 추가 작성
-			//현재 로그인한 사용자에 대한 정보를 알기 위해서는 스프링 시큐리티가 제공하는 Principal 객체를 사용
-			//principal.getName()을 호출하면 현재 로그인한 사용자의 사용자명(사용자ID)을 알수 있다.
+			Principal principal
 			) {
 		
 		
@@ -71,11 +65,10 @@ public class AnswerController {
 		}
 		
 		//답변 내용을 저장하는 메소드 호출 (Service에서 호출) 
-				
-		this.answerService.create(question, answerForm.getContent(), siteUser);   //2월16일 추가항목
+		Answer answer=this.answerService.create(question, answerForm.getContent(), siteUser);   //2월16일 추가항목
 		
 		
-		return String.format("redirect:/question/detail/%s", id); 
+		return String.format("redirect:/question/detail/%s#answer_%s",answer.getQuestion().getId(), answer.getId());
 	}
 	
 	
@@ -106,7 +99,8 @@ public class AnswerController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
         this.answerService.modify(answer, answerForm.getContent());
-        return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+        return String.format("redirect:/question/detail/%s#answer_%s",
+                answer.getQuestion().getId(), answer.getId());
     }
     
     

@@ -29,7 +29,7 @@ public class QuestionController {
 	private final UserService userService;		//2월 16일 수정됨
 
 	@PreAuthorize("isAuthenticated()")
-	@GetMapping("question/vote/{id}")
+	@GetMapping("/question/vote/{id}")
 	public String questionVote(Principal principal,@PathVariable("id")Integer id){
 		//질문에 좋아요 누른 사람을 voter로 저장
 		SiteUser siteUser=this.userService.getUser(principal.getName());
@@ -40,14 +40,14 @@ public class QuestionController {
 
 
 	@GetMapping("/question/list")
-	public String list(Model model, @RequestParam (value="page", defaultValue="0") int page ) {
+	public String list(Model model, @RequestParam (value="page", defaultValue="0") int page,
+					   @RequestParam(value = "kw", defaultValue = "") String kw) {
 		// 비즈니스 로직 처리 : 
-		Page<Question> paging = 
-			this.questionService.getList(page); 
+		Page<Question> paging = this.questionService.getList(page,kw);
 		
 		//model 객체에 결과로 받은 paging 객체를 client 로 전송 
-		model.addAttribute("paging", paging); 
-		
+		model.addAttribute("paging", paging);
+		model.addAttribute("kw", kw);
 		return "question_list"; 
 	}
 	

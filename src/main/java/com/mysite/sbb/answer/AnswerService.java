@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.mysite.sbb.DataNotFoundException;
+import com.mysite.sbb.test.DataNotFoundException;
 import com.mysite.sbb.question.Question;
 import com.mysite.sbb.user.SiteUser;
 
@@ -22,7 +22,7 @@ public class AnswerService {
         this.answerRepository.save(answer);
     }
 	//답변글을 저장하는 메소드 , Controller 에서 Question 생성해서 아규먼트로 인풋 
-	public void create(Question question, String content, SiteUser author) {
+	public Answer create(Question question, String content, SiteUser author) {
 		
 		//Answer 객체를 생성후 아규면트로 넘어오는 값을 setter 주입 
 		Answer answer = new Answer(); 
@@ -30,9 +30,8 @@ public class AnswerService {
 		answer.setCreateDate(LocalDateTime.now());
 		answer.setQuestion(question);
 		answer.setAuthor(author);
-		
 		this.answerRepository.save(answer); 
-		
+		return answer;
 	}
 	
 	
